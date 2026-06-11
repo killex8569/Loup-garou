@@ -12,7 +12,7 @@ mon-projet/
 │   │   ├── Game.java # Interface commune à tous les jeux
 │   │   ├── RockPaperScissors.java
 │   │   ├── Werewolf.java
-│   │   └── ...
+│   │   └── ...  
 │   │
 │   ├── protocol/
 │   │   ├── Message.java # Structure d'un message

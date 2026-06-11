@@ -1,29 +1,30 @@
 import java.net.*;
 import java.io.*;
-
+// Côté serveur
 public class Serveur {
     public static void main(String[] args) throws IOException {
-        // Écoute sur le port 8080
-        ServerSocket serverSocket = new ServerSocket(8080);
-        System.out.println("Serveur en attente de connexions...");
+        int port = 12345; // un port libre au-dessus de 1024
 
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("En attente d'un client...");
 
-        while (true) {
-            Socket clientSocket = serverSocket.accept(); // bloque jusqu'à connexion
-            System.out.println("Client connecté : " + clientSocket.getInetAddress());
+        Socket clientSocket = serverSocket.accept(); // <- bloque ici tant que personne ne se connecte
+        System.out.println("Client connecté !");
 
-            // Flux d'entrée/sortie
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        // TODO : récupère les flux du socket
+        //   Indice : pour LIRE du texte ligne par ligne depuis
+        //            clientSocket.getInputStream(), il faut enchaîner
+        //            InputStreamReader puis BufferedReader.
+        //   Indice : pour ÉCRIRE, PrintWriter peut envelopper directement
+        //            un OutputStream — regarde le constructeur à 2 arguments
+        //            (avec le booléen autoFlush).
 
-            String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("Reçu : " + message);
-                out.println("Echo : " + message); // renvoie le message au client
-            }
+        // TODO : boucle "tant que le client n'a pas envoyé quit"
+        //   - lis une ligne (readLine)
+        //   - renvoie une réponse au client
 
-            clientSocket.close();
-        }
+        // TODO : ferme proprement (flux + socket)
+        //   Indice : regarde try-with-resources, ça ferme tout
+        //            automatiquement même en cas d'erreur.
     }
-
 }

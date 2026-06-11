@@ -1,25 +1,31 @@
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 
+// Côté client
 public class Client {
     public static void main(String[] args) throws IOException {
-        String host = "localhost";
-        int port = 8080;
+        Socket socket = new Socket("localhost", 12345); // même port que le serveur
+        System.out.println("Connecté !");
 
-        // Connexion au serveur (localhost, port 8080)
-        Socket socket = new Socket(host, port);
+        // TODO : récupère les flux (mêmes indices que côté serveur)
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(socket.getInputStream()));
-        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+        // TODO : un Scanner pour lire ce que tu tapes au clavier
 
-        String ligne;
-        while ((ligne = console.readLine()) != null) {
-            out.println(ligne);                          // envoie au serveur
-            System.out.println(in.readLine());           // affiche la réponse
+        Scanner sc = new Scanner(System.in);
+        String texte = sc.nextLine();
+
+
+        // TODO : boucle :
+        //   - lis une ligne tapée
+        //   - envoie-la au serveur
+        //   - lis la réponse du serveur et affiche-la
+        //   - si tu tapes "quit", arrête la boucle
+        String Message = "quit";
+
+        while(texte != Message){
+
         }
 
-        socket.close();
     }
 }

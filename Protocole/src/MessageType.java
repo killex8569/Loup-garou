@@ -15,8 +15,4 @@ public enum MessageType {
     TURN,
     GAME_OVER,
     ERROR
-
-
-
-
 }
