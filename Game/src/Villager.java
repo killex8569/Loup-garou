@@ -49,23 +49,23 @@ public class Villager implements Vote {
     private static int compteurId;
     private String name;
     private boolean isDead;
-    private String description;
+    private String description = "Ne peut rien faire sauf voter";
     private boolean isMayor;
     private ArrayList<String> HistoriqueVote = new ArrayList<>();
     private boolean isRoleStealed; // Role du voleur, si true alors peu importe le role mais il devient villageois
     private boolean isWinWithVillage; // True pour dire qu'il gagne avec le village, false pour dire que non
     private static ArrayList<Villager> listeJoueur = new ArrayList<Villager>();
     private int nbVoteContre;
+    private Villager lastPlayervoted;
 
     public Villager(){
         compteurId ++;
         this.ID = compteurId;
     }
 
-    public Villager(String name, String description, boolean isMayor){
+    public Villager(String name, boolean isMayor){
         this();
         this.name = name;
-        this.description = description;
         this.isMayor = isMayor;
         listeJoueur.add(this);
     }
@@ -98,6 +98,9 @@ public class Villager implements Vote {
     }
     public boolean isWinWithVillage(){
         return this.isWinWithVillage;
+    }
+    public Villager getLastPlayervoted(){
+        return this.lastPlayervoted;
     }
 
     // Setter
@@ -149,6 +152,7 @@ public class Villager implements Vote {
     public void voteplayer(Villager villager){
         villager.addNbVoteContre(1);
         addPlayerVotedToHistorique(villager);
+        this.lastPlayervoted = villager;
     }
 
 
@@ -171,15 +175,53 @@ public class Villager implements Vote {
     }
 
 
+    public static void ifEqualityBetweenPlayer(){
+        int maxVote = 0;
+        Villager player;
+        ArrayList<Villager> listeEgaliter = new ArrayList<>();
+        Villager playerMayor = null;
+        for (Villager e : Villager.listeJoueur){
+            if (maxVote < e.getNbVoteContre()){
+                player = e;
+                maxVote = e.getNbVoteContre();
+            }
+            if (e.isMayor){
+                playerMayor = e;
+            }
+        }
+        for (Villager e : Villager.listeJoueur){
+            if (e.getNbVoteContre() == maxVote){
+                listeEgaliter.add(e);
+            }
+        }
+        if (listeEgaliter.size() > 1){
+            if (playerMayor != null){
+                for (Villager e : listeEgaliter){
+                    if (playerMayor.getLastPlayervoted().equals(e)){
+                        playerMayor.playerVoteByNameOrID(e.getName());
+                        System.out.println("Le joueur " + e.getName() + " est éliminé sur une égalité avec le vote du maire!");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Pas d'égaliter, le joueur est éliminé : " + listeEgaliter.get(0).getName());
+        }
+
+
+    }
+
+
     @Override
     public String toString(){
-        return "\nName : " + this.name +
+        return "\n -----------------------------------" +
+                "\nName : " + this.name +
                 "\nRole : Villageois" +
                 "\nID : " + this.ID +
                 "\nDescription : " + this.description +
                 "\nest Mort : " + this.isDead + "\n" +
                 "\nest Maire : " + this.isMayor +
-                "\nHistorique des votes : " +this.HistoriqueVote;
+                "\nHistorique des votes : " +this.HistoriqueVote +
+                "\n -----------------------------------";
     }
 
 
