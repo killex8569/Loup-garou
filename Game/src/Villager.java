@@ -45,26 +45,36 @@ Listes des rôles avec leurs fonctionnalités
 
 */
 public class Villager {
-    private static int ID;
+    private final int ID;
+    private static int compteurId;
     private String name;
     private boolean isDead;
     private String description;
     private boolean isMayor;
-    ArrayList<Villager> HistoriqueVote = new ArrayList<Villager>();
+    ArrayList<Villager> HistoriqueVote = new ArrayList<>();
     private boolean isRoleStealed; // Role du voleur, si true alors peu importe le role mais il devient villageois
     private boolean isWinWithVillage; // True pour dire qu'il gagne avec le village, false pour dire que non
+    private static ArrayList<Villager> listeJoueur = new ArrayList<Villager>();
+    private int nbVoteContre;
 
     public Villager(){
-        this.ID ++;
+        compteurId ++;
+        this.ID = compteurId;
     }
 
     public Villager(String name, String description, boolean isMayor){
+        this();
         this.name = name;
         this.description = description;
         this.isMayor = isMayor;
+        listeJoueur.add(this);
     }
 
     // Getter
+
+    public int getId(){
+        return this.ID;
+    }
     public String getName(){
         return this.name;
     }
@@ -80,8 +90,82 @@ public class Villager {
     public ArrayList<Villager> getHistoriqueVote(){
         return this.HistoriqueVote;
     }
+    public int getNbVoteContre(){
+        return this.nbVoteContre;
+    }
 
     // Setter
+
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setDead(boolean isDead){
+        this.isDead = isDead;
+    }
+    public void setDescription(String description){
+        this.description = description;
+    }
+    public void setMayor(boolean isMayor){
+        this.isMayor = isMayor;
+    }
+    public void setRoleStealed(boolean isRoleStealed){
+        this.isRoleStealed = isRoleStealed;
+    }
+    public void setWinWithVillage(boolean isWinWithVillage){
+        this.isWinWithVillage = isWinWithVillage;
+    }
+    public void setNbVoteContre(int nbVoteContre){
+        this.nbVoteContre += nbVoteContre;
+    }
+
+
+    // Méthodes
+
+    // Simple villageois
+    public void addOneVote(Villager villager){
+        villager.setNbVoteContre(1);
+    }
+
+    // Corbeau
+    public void addTwoVote(Villager villager){
+        villager.setNbVoteContre(2);
+    }
+
+    public void playerVote(Object personnageVote){
+        if (personnageVote instanceof Integer){
+            for (Villager e : Villager.listeJoueur){
+                if (personnageVote.equals(e.getId())){
+                    addOneVote(e);
+                }
+            }
+        }else if (personnageVote instanceof String){
+            for (Villager e : Villager.listeJoueur){
+                if (personnageVote.equals(e.getName())){
+                    addOneVote(e);
+                }
+            }
+        }
+    }
+
+    public void playerVoteCorbeau(Object personnageVote){
+        if (personnageVote instanceof Integer){
+            for (Villager e : Villager.listeJoueur){
+                if (personnageVote.equals(e.getId())){
+                    addTwoVote(e);
+                }
+            }
+        }else if (personnageVote instanceof String){
+            for (Villager e : Villager.listeJoueur){
+                if (personnageVote.equals(e.getName())){
+                    addTwoVote(e);
+                }
+            }
+        }
+    }
+
+
+
+
 
 
 
