@@ -5,6 +5,7 @@ public class Test {
         Villager villageois1 = new Villager("Alexandre", false);
         Villager villageois2 = new Villager("Killex8569", false);
         Villager villageois3 = new Villager("Nicolas", true);
+        LoupGarou loupGarou1 = new LoupGarou("Jean", false);
 
 
         System.out.println("Alexandre ID : " + villageois1.getId());
@@ -17,6 +18,7 @@ public class Test {
 
         Villager.ifEqualityBetweenPlayer();
 
+
         System.out.println("killex nb vote : " + villageois2.getNbVoteContre());
         System.out.println("Alexandre nb vote : " + villageois1.getNbVoteContre());
         System.out.println("Nicolas nb vote : " + villageois3.getNbVoteContre());
@@ -24,7 +26,10 @@ public class Test {
         System.out.println("Historique de vote du JOUEUR 2" + villageois2.getHistoriqueVote());
         System.out.println("Historique de vote du JOUEUR 3" + villageois3.getHistoriqueVote());
 
-        System.out.println(villageois1.toString());
+        // Print tout les joueurs avec leurs rôles
+        for (Villager e : Villager.getListeJoueur()){
+            System.out.println(e.toString());
+        }
 
 
 

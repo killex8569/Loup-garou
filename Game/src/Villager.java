@@ -47,9 +47,9 @@ import java.util.ArrayList;
 public class Villager implements Vote {
     private final int ID;
     private static int compteurId;
+    private String roleName;
     private String name;
     private boolean isDead;
-    private String description = "Ne peut rien faire sauf voter";
     private boolean isMayor;
     private ArrayList<String> HistoriqueVote = new ArrayList<>();
     private boolean isRoleStealed; // Role du voleur, si true alors peu importe le role mais il devient villageois
@@ -79,7 +79,7 @@ public class Villager implements Vote {
         return this.name;
     }
     public String getDescription(){
-        return this.description;
+        return "Un simple citoyen qui tente de survivre et de démasquer les loups.";
     }
     public boolean getisDead(){
         return this.isDead;
@@ -102,6 +102,12 @@ public class Villager implements Vote {
     public Villager getLastPlayervoted(){
         return this.lastPlayervoted;
     }
+    public static ArrayList<Villager> getListeJoueur(){
+        return listeJoueur;
+    }
+    public String getRoleName(){
+        return this.getClass().getSimpleName();
+    }
 
     // Setter
 
@@ -110,9 +116,6 @@ public class Villager implements Vote {
     }
     public void setDead(boolean isDead){
         this.isDead = isDead;
-    }
-    public void setDescription(String description){
-        this.description = description;
     }
     public void setMayor(boolean isMayor){
         this.isMayor = isMayor;
@@ -215,9 +218,9 @@ public class Villager implements Vote {
     public String toString(){
         return "\n -----------------------------------" +
                 "\nName : " + this.name +
-                "\nRole : Villageois" +
+                "\nRole : " + this.getRoleName() +
                 "\nID : " + this.ID +
-                "\nDescription : " + this.description +
+                "\nDescription : " + this.getDescription() +
                 "\nest Mort : " + this.isDead + "\n" +
                 "\nest Maire : " + this.isMayor +
                 "\nHistorique des votes : " +this.HistoriqueVote +
