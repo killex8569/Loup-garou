@@ -6,32 +6,30 @@ public class Test {
         Villager villageois2 = new Villager("Killex8569", false);
         Villager villageois3 = new Villager("Nicolas", true);
         LoupGarou loupGarou1 = new LoupGarou("Jean", false);
+        LoupGarou loupGarou2 = new LoupGarou("Alice", false);
+        Villager villageois4 = new Villager("Bob", false);
 
+        for (Villager e : Villager.getListeJoueur()){
+            System.out.println(e.getName() + " ID : " + e.getId());
+        }
 
-        System.out.println("Alexandre ID : " + villageois1.getId());
-        System.out.println("killex ID : " + villageois2.getId());
-        System.out.println("Nicolas ID : " + villageois3.getId());
-
+        System.out.println("\n-------------------------\n");
         villageois1.playerVoteByNameOrID("Killex8569");
         villageois3.playerVoteByNameOrID("Alexandre");
         villageois2.playerVoteByNameOrID(3);
+        loupGarou1.playerVoteByNameOrID(4);
 
         Villager.ifEqualityBetweenPlayer();
 
 
-        System.out.println("killex nb vote : " + villageois2.getNbVoteContre());
-        System.out.println("Alexandre nb vote : " + villageois1.getNbVoteContre());
-        System.out.println("Nicolas nb vote : " + villageois3.getNbVoteContre());
-        System.out.println("Historique de vote du JOUEUR 1" + villageois1.getHistoriqueVote());
-        System.out.println("Historique de vote du JOUEUR 2" + villageois2.getHistoriqueVote());
-        System.out.println("Historique de vote du JOUEUR 3" + villageois3.getHistoriqueVote());
+        // Historique de vote
+        for (Villager e : Villager.getListeJoueur()){
+            System.out.println("Historique de vote du joueur : " + e.getName() + " --> " + e.getHistoriqueVote());
+        }
 
         // Print tout les joueurs avec leurs rôles
         for (Villager e : Villager.getListeJoueur()){
             System.out.println(e.toString());
         }
-
-
-
     }
 }

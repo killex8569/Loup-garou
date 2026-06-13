@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 /*
 # Liste des rôles avec leurs fonctionnalités
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 
 */
 
-public class Villager implements Vote {
+public class Villager implements IVote {
     private final int ID;
     private static int compteurId;
     private String roleName;
@@ -162,18 +161,37 @@ public class Villager implements Vote {
     // Classe ou le joueur choisi le joueur pour lequel il souhaite voter
     @Override
     public void playerVoteByNameOrID(Object personnageVote){
+        if (this.getisDead()){
+            System.out.println("Vous ne pouvez pas voter, vous êtes mort...");
+            return;
+        }
+
         if (personnageVote instanceof Integer){
-            for (Villager e : Villager.listeJoueur){
-                if (personnageVote.equals(e.getId())){
-                    voteplayer(e);
+            int idCible = (Integer) personnageVote;
+            for (Villager e : Villager.getListeJoueur()){
+                if (e.getId() == idCible) {
+                    if (!e.getisDead()) {
+                        voteplayer(e);
+                    } else {
+                        System.out.println("Le joueur : " + e.getId() + " est déjà mort");
+                    }
+                    break;
                 }
             }
-        }else if (personnageVote instanceof String){
-            for (Villager e : Villager.listeJoueur){
-                if (personnageVote.equals(e.getName())){
-                    voteplayer(e);
+        } else if (personnageVote instanceof String){
+            String nomCible = (String) personnageVote;
+            for (Villager e : Villager.getListeJoueur()){
+                if (e.getName().equals(nomCible)) {
+                    if (!e.getisDead()) {
+                        voteplayer(e);
+                    } else {
+                        System.out.println("Le joueur : " + e.getName() + " est déjà mort");
+                    }
+                    break;
                 }
             }
+        } else {
+            System.out.println("Entrée invalide, veuillez ré-essayer");
         }
     }
 
@@ -209,8 +227,6 @@ public class Villager implements Vote {
         } else {
             System.out.println("Pas d'égaliter, le joueur est éliminé : " + listeEgaliter.get(0).getName());
         }
-
-
     }
 
 
@@ -226,13 +242,4 @@ public class Villager implements Vote {
                 "\nHistorique des votes : " +this.HistoriqueVote +
                 "\n -----------------------------------";
     }
-
-
-
-
-
-
-
-
-
 }
