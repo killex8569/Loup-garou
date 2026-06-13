@@ -140,9 +140,18 @@ public class Villager implements IVote {
     public void setIsWinWithVillage(boolean isWinWithVillage){
         this.isWinWithVillage = isWinWithVillage;
     }
+    public void setlastPlayervoted(Villager villageois){
+        this.lastPlayervoted = villageois;
+    }
 
 
     // Méthodes
+
+    public static void resetNbVoteContre(){
+        for (Villager e : Villager.getListeJoueur()){
+            e.setNbVoteContre(0);
+        }
+    }
 
     @Override
     public void addPlayerVotedToHistorique(Villager villager){
@@ -155,6 +164,7 @@ public class Villager implements IVote {
         villager.addNbVoteContre(1);
         addPlayerVotedToHistorique(villager);
         this.lastPlayervoted = villager;
+        System.out.println(this.getName() + " a voté pour : " + villager.getName());
     }
 
 
@@ -171,9 +181,9 @@ public class Villager implements IVote {
             for (Villager e : Villager.getListeJoueur()){
                 if (e.getId() == idCible) {
                     if (!e.getisDead()) {
-                        voteplayer(e);
+                        this.voteplayer(e);
                     } else {
-                        System.out.println("Le joueur : " + e.getId() + " est déjà mort");
+                        System.out.println("Le joueur : " + e.getId() + " est déjà mort, vous ne pouvez pas voter pour lui");
                     }
                     break;
                 }
@@ -183,9 +193,9 @@ public class Villager implements IVote {
             for (Villager e : Villager.getListeJoueur()){
                 if (e.getName().equals(nomCible)) {
                     if (!e.getisDead()) {
-                        voteplayer(e);
+                        this.voteplayer(e);
                     } else {
-                        System.out.println("Le joueur : " + e.getName() + " est déjà mort");
+                        System.out.println("Le joueur : " + e.getName() + " est déjà mort, vous ne pouvez pas voter pour lui");
                     }
                     break;
                 }
@@ -220,12 +230,16 @@ public class Villager implements IVote {
                 for (Villager e : listeEgaliter){
                     if (playerMayor.getLastPlayervoted().equals(e)){
                         playerMayor.playerVoteByNameOrID(e.getName());
+                        e.setDead(true);
                         System.out.println("Le joueur " + e.getName() + " est éliminé sur une égalité avec le vote du maire!");
+
                     }
                 }
             }
         } else {
-            System.out.println("Pas d'égaliter, le joueur est éliminé : " + listeEgaliter.get(0).getName());
+            Villager villageoisMort = listeEgaliter.get(0);
+            villageoisMort.setDead(true);
+            System.out.println("Pas d'égaliter, le joueur est éliminé : " + villageoisMort.getName());
         }
     }
 
