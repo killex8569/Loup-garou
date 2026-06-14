@@ -7,6 +7,7 @@ public class Test {
         Villager villageois3 = new Villager("Nicolas", true);
         LoupGarou loupGarou1 = new LoupGarou("Jean", false);
         LoupGarou loupGarou2 = new LoupGarou("Alice", false);
+        LoupGarou loupGarou3 = new LoupGarou("Kevin", false);
         Villager villageois4 = new Villager("Bob", false);
 
         for (Villager e : Villager.getListeJoueur()){
@@ -29,7 +30,7 @@ public class Test {
         for (Villager e : Villager.getListeJoueur()){
             System.out.println("Nombre de vote pour le joueur : " + e.getName() + " : " + e.getNbVoteContre());
         }
-        System.out.println("Reset des vote");
+        System.out.println("\nReset des vote ----------------\n");
         Villager.resetNbVoteContre();
         for (Villager e : Villager.getListeJoueur()){
             System.out.println("Nombre de vote pour le joueur : " + e.getName() + " : " + e.getNbVoteContre());
@@ -41,6 +42,9 @@ public class Test {
         System.out.println("\nVOTE DES LOUP GAROU (NUIT)\n-------------------------\n");
         loupGarou1.mangerVillageois("Alexandre");
         loupGarou2.mangerVillageois("Killex8569");
+        //loupGarou3.mangerVillageois(2); // Egaliter fonctionnelle
+        loupGarou3.mangerVillageois(3);
+        LoupGarou.ifEqualityBetweenPlayerLG();
 
 
         System.out.println("\nHISTORIQUE DES VOTES DES JOUEURS\n-------------------------\n");

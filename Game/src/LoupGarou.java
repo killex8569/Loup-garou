@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LoupGarou extends Villager implements IMangerVillaegois {
     private boolean isWhiteWolf;
@@ -67,6 +68,39 @@ public class LoupGarou extends Villager implements IMangerVillaegois {
         addPlayerVotedToHistoriqueLG(villager);
         this.setlastPlayervoted(villager);
         System.out.println(this.getName() + " a voté pour : " + villager.getName());
+    }
+
+
+    public static void ifEqualityBetweenPlayerLG(){
+        int maxVote = 0;
+        Villager player;
+        ArrayList<Villager> listeEgaliter = new ArrayList<>();
+        Villager playerMayor = null;
+        for (Villager e : Villager.getListeJoueur()){
+            if (maxVote < e.getNbVoteContre()){
+                player = e;
+                maxVote = e.getNbVoteContre();
+            }
+            if (e.getisMayor()){
+                playerMayor = e;
+            }
+        }
+        for (Villager e : Villager.getListeJoueur()){
+            if (e.getNbVoteContre() == maxVote){
+                listeEgaliter.add(e);
+            }
+        }
+        int tailleListeEgaliter = listeEgaliter.size();
+        if (tailleListeEgaliter > 1){
+            int randomKillPlayer = ThreadLocalRandom.current().nextInt(0, tailleListeEgaliter + 1);
+            Villager villageoisDesigner = listeEgaliter.get(randomKillPlayer);
+            villageoisDesigner.setDead(true);
+            System.out.println("Le joueur " + villageoisDesigner.getName() + " est éliminé sur une égalité de manière aléatoire !");
+        } else {
+            Villager villageoisMort = listeEgaliter.get(0);
+            villageoisMort.setDead(true);
+            System.out.println("Pas d'égaliter, le joueur est éliminé : " + villageoisMort.getName());
+        }
     }
 
 

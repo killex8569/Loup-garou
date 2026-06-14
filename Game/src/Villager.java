@@ -147,6 +147,33 @@ public class Villager implements IVote {
 
     // Méthodes
 
+    public static boolean verifyIfMultipleMayor(){
+        int compteur = 0;
+        for (Villager e : Villager.listeJoueur){
+            if (e.getisMayor()){
+                compteur++;
+            }
+        }
+        if (compteur > 1){
+            System.out.println("Il ne peut pas y avoir deux maire... Que le vote recommence ! (Plus personne n'est maire)");
+            for (Villager e : Villager.listeJoueur){
+                if (e.getisMayor()){
+                    e.setMayor(false);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void electionMayor(){
+        boolean verif = verifyIfMultipleMayor();
+        if (verif){
+            System.out.println("Nous allons à présent procéder au vote du maire (UN seul maire sera élu à la fin de ce vote)");
+
+        }
+    }
+
     public static void resetNbVoteContre(){
         for (Villager e : Villager.getListeJoueur()){
             e.setNbVoteContre(0);
